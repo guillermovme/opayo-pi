@@ -35,6 +35,7 @@ class CreatePayment extends AbstractRequest
     protected $giftAid = false;
     protected $applyAvsCvcCheck;
     protected $apply3DSecure;
+    protected $credentialType;
     protected $shippingAddress;
     protected $shippingRecipient;
     protected $referrerId = '3F7A4119-8671-464F-A091-9E59EB47B80C';
@@ -269,6 +270,12 @@ class CreatePayment extends AbstractRequest
         return $this;
     }
 
+    protected function setCredentialType($credentialType)
+    {
+        $this->credentialType = $credentialType;
+        return $this;
+    }
+
     /**
      * @param $apply3DSecure
      * @return Transaction
@@ -414,6 +421,10 @@ class CreatePayment extends AbstractRequest
 
         if (! empty($this->strongCustomerAuthentication)) {
             $result['strongCustomerAuthentication'] = $this->strongCustomerAuthentication->jsonSerialize();
+        }
+
+        if (! empty($this->credentialType)) {
+            $result['credentialType'] = $this->credentialType;
         }
 
         return $result;
